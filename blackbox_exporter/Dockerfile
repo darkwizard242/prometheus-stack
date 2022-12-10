@@ -1,17 +1,16 @@
 FROM public.ecr.aws/docker/library/alpine:3.17 AS base
 
-# Set BlackBox_Exporter Version
 ARG TOOL=${TOOL:-blackbox_exporter}
 ARG VERSION=${VERSION:-0.23.0}
 ARG OS=${OS:-linux}
 ARG ARCH=${ARCH:-amd64}
 
+# Empty vars - only to be set when running behind proxy
 ENV http_proxy=
 ENV https_proxy=
 ENV no_proxy=
+# Empty vars - only to be set when running behind proxy
 
-# Install required dependencies
-# Download, install and setup BlackBox Exporter
 RUN apk update \
     && apk upgrade \
     && apk add --no-cache curl tar \
