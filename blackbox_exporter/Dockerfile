@@ -6,6 +6,10 @@ ARG VERSION=0.23.0
 ARG OS=linux
 ARG ARCH=amd64
 
+ENV http_proxy=
+ENV https_proxy=
+ENV no_proxy=
+
 # Install required dependencies
 # Download, install and setup BlackBox Exporter
 RUN apk update \
