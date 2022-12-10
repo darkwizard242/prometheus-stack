@@ -1,0 +1,32 @@
+services:
+
+  blackbox:
+    build:
+      context: .
+      dockerfile: blackbox_exporter/Dockerfile
+      args:
+        version: 0.23.0
+    image: monitoring:blackbox
+    restart: always
+    networks:
+      - monitoring
+    ports:
+      - 9115:9115
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "5"
+    healthcheck:
+      test: ["CMD", "curl", "-kv", "https://blackbox-/healthy"]
+      interval: 10s
+      timeout: 5s
+
+# volumes:
+#   promdata:
+#   grafanadata:
+#   alertmanagerdata:
+
+networks:
+  monitoring:
+    driver: bridge

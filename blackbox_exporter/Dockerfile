@@ -1,10 +1,10 @@
 FROM public.ecr.aws/docker/library/alpine:3.17 AS base
 
 # Set BlackBox_Exporter Version
-ARG TOOL=blackbox_exporter
-ARG VERSION=0.23.0
-ARG OS=linux
-ARG ARCH=amd64
+ARG TOOL=${TOOL:-blackbox_exporter}
+ARG VERSION=${VERSION:-0.23.0}
+ARG OS=${OS:-linux}
+ARG ARCH=${ARCH:-amd64}
 
 ENV http_proxy=
 ENV https_proxy=
