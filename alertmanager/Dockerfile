@@ -1,7 +1,7 @@
 FROM public.ecr.aws/docker/library/alpine:3.17 AS base
 
-ARG TOOL=${TOOL:-blackbox_exporter}
-ARG VERSION=${VERSION:-0.23.0}
+ARG TOOL=${TOOL:-alertmanager}
+ARG VERSION=${VERSION:-0.24.0}
 ARG OS=${OS:-linux}
 ARG ARCH=${ARCH:-amd64}
 
@@ -24,8 +24,8 @@ RUN apk update \
     && apk del tar \
     && rm -rf /var/cache/apk/*
 
-COPY ${TOOL}/${TOOL}.yml /etc/blackbox_exporter/
+COPY ${TOOL}/${TOOL}.yml /etc/${TOOL}/
 
 # Container Configurations
-EXPOSE 9115
-CMD ["/usr/local/bin/blackbox_exporter", "--config.file=/etc/blackbox_exporter/blackbox_exporter.yml", "--web.external-url=http://blackbox"]
+EXPOSE 9093
+CMD ["/usr/local/bin/alertmanager", "--config.file=/etc/alertmanager/alertmanager.yml", "--storage.path=/var/lib/alertmanager", "--web.external-url=http://alertmanager"]

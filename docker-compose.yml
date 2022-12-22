@@ -18,14 +18,39 @@ services:
         max-size: "5m"
         max-file: "5"
     healthcheck:
-      test: ["CMD", "curl", "-kv", "https://blackbox-/healthy"]
+      test: ["CMD", "curl", "-kv", "https://blackbox/-/healthy"]
       interval: 10s
       timeout: 5s
 
-# volumes:
+  alertmanager:
+    build:
+      context: .
+      dockerfile: alertmanager/Dockerfile
+      args:
+        version: 0.24.0
+    image: monitoring:alertmanager
+    restart: always
+    networks:
+      - monitoring
+    ports:
+      - 9093:9093
+    volumes:
+      - "alertmanagerdata:/var/lib/alertmanager"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "5"
+    healthcheck:
+      test: ["CMD", "curl", "-kv", "https://alertmanager/-/healthy"]
+      interval: 10s
+      timeout: 5s
+
+
+volumes:
 #   promdata:
 #   grafanadata:
-#   alertmanagerdata:
+  alertmanagerdata:
 
 networks:
   monitoring:
