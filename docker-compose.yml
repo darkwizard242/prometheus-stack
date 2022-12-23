@@ -46,9 +46,36 @@ services:
       interval: 10s
       timeout: 5s
 
+  prometheus:
+    build:
+      context: .
+      dockerfile: prometheus/Dockerfile
+      args:
+        version: 2.36.2
+    depends_on:
+      - alertmanager
+      - blackbox
+    image: monitoring:prometheus
+    restart: always
+    networks:
+      - monitoring
+    ports:
+      - 9090:9090
+    volumes:
+      - "promdata:/var/lib/prometheus"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "5"
+    healthcheck:
+      test: ["CMD", "curl", "-kv", "http://prometheus/-/healthy"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
 volumes:
-#   promdata:
+  promdata:
 #   grafanadata:
   alertmanagerdata:
 
