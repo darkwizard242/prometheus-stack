@@ -18,7 +18,7 @@ services:
         max-size: "5m"
         max-file: "5"
     healthcheck:
-      test: ["CMD", "curl", "-kv", "https://blackbox/-/healthy"]
+      test: ["CMD", "curl", "-kv", "http://blackbox:9115/-/healthy"]
       interval: 10s
       timeout: 5s
 
@@ -42,7 +42,7 @@ services:
         max-size: "5m"
         max-file: "5"
     healthcheck:
-      test: ["CMD", "curl", "-kv", "https://alertmanager/-/healthy"]
+      test: ["CMD", "curl", "-kv", "http://alertmanager:9093/-/healthy"]
       interval: 10s
       timeout: 5s
 
@@ -69,14 +69,88 @@ services:
         max-size: "5m"
         max-file: "5"
     healthcheck:
-      test: ["CMD", "curl", "-kv", "http://prometheus/-/healthy"]
+      test: ["CMD", "curl", "-kv", "http://prometheus:9090/-/healthy"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  grafana:
+    build:
+      context: .
+      dockerfile: grafana/Dockerfile
+    depends_on:
+      - prometheus
+    image: monitoring:grafana
+    restart: always
+    environment:
+      - GF_DEFAULT_APP_MODE=production
+
+      # PATHS
+      - GF_PATHS_DATA=/var/lib/grafana/data
+      - GF_PATHS_LOGS=/var/lib/grafana/logs
+      - GF_PATHS_PLUGINS=/var/lib/grafana/plugins
+      - GF_PATHS_PROVISIONING=/var/lib/grafana/provisioning
+      - GF_PATHS_TEMP_DATA_LIFETIME=24h
+
+      # SERVER
+      - GF_SERVER_PROTOCOL=http
+      - GF_SERVER_ROUTER_LOGGING=true
+      - GF_SERVER_ENABLE_GZIP=true
+
+      # DATABASE
+      - GF_DATABASE_TYPE=sqlite3
+      - GF_DATABASE_HOST=127.0.0.1:3306
+      - GF_DATABASE_NAME=grafana
+      - GF_DATABASE_USER=root
+      - GF_DATABASE_PASSWORD=k86bG9#8*MnMdCq9u5
+      - GF_DATABASE_PATH=grafana.db
+      - GF_DATABASE_CACHE_MODE=shared
+
+      # ANALYTICS
+      - GF_ANALYTICS_REPORTING_ENABLED=false
+
+      # SECURITY
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_COOKIE_SAMESITE=strict
+      - GF_SECURITY_STRICT_TRANSPORT_SECURITY=false
+      - GF_SECURITY_X_CONTENT_TYPE_OPTIONS=true
+      - GF_SECURITY_X_XSS_PROTECTION=true
+
+      # DASHBOARDS
+      - GF_DASHBOARDS_MIN_REFRESH_INTERVAL=5s
+
+      # USERS
+      - GF_USERS_ALLOW_SIGN_UP=true
+      - GF_USERS_DEFAULT_THEME=dark
+
+      # AUTH ANONYMOUS
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_NAME=Default
+
+      # LOG
+      - GF_LOG_MODE=console
+      - GF_LOG_LEVEL=info
+    networks:
+      - monitoring
+    ports:
+      - 3000:3000
+    volumes:
+      - "grafanadata:/var/lib/grafana"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "5"
+    healthcheck:
+      test: ["CMD", "curl", "-kv", "http://grafana/api/health"]
       interval: 10s
       timeout: 5s
       retries: 3
 
 volumes:
   promdata:
-#   grafanadata:
+  grafanadata:
   alertmanagerdata:
 
 networks:

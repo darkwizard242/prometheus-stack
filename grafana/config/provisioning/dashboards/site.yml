@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+- name: 'site'
+  org_id: 1
+  folder: 'Site'
+  type: 'file'
+  updateIntervalSeconds: 10
+  allowUiUpdates: true
+  options:
+    path: '/var/lib/grafana/dashboards/site'
