@@ -1,0 +1,48 @@
+groups:
+  - name: PROMETHEUS Rules
+    rules:
+
+      - alert: PrometheusTsdbCheckpointCreationFailures
+        expr: increase(prometheus_tsdb_checkpoint_creations_failed_total[3m]) > 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Prometheus TSDB checkpoint creation failures (instance {{ $labels.instance }})"
+          description: "Prometheus encountered {{ $value }} checkpoint creation failures"
+
+      - alert: PrometheusTsdbCheckpointDeletionFailures
+        expr: increase(prometheus_tsdb_checkpoint_deletions_failed_total[3m]) > 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Prometheus TSDB checkpoint deletion failures (instance {{ $labels.instance }})"
+          description: "Prometheus encountered {{ $value }} checkpoint deletion failures"
+
+      - alert: PrometheusTsdbCompactionsFailed
+        expr: increase(prometheus_tsdb_compactions_failed_total[3m]) > 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Prometheus TSDB compactions failed (instance {{ $labels.instance }})"
+          description: "Prometheus encountered {{ $value }} TSDB compactions failures"
+
+      - alert: PrometheusTsdbWalCorruptions
+        expr: increase(prometheus_tsdb_wal_corruptions_total[3m]) > 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Prometheus TSDB WAL corruptions (instance {{ $labels.instance }})"
+          description: "Prometheus encountered {{ $value }} TSDB WAL corruptions"
+
+      - alert: PrometheusTsdbWalTruncationsFailed
+        expr: increase(prometheus_tsdb_wal_truncations_failed_total[3m]) > 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Prometheus TSDB WAL truncations failed (instance {{ $labels.instance }})"
+          description: "Prometheus encountered {{ $value }} TSDB WAL truncation failures"

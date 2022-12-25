@@ -1,0 +1,30 @@
+groups:
+  - name: MEMORY Rules
+    rules:
+
+      - alert: HighMemoryUsage_85%
+        expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 10
+        for: 20m
+        labels:
+          severity: warning
+          team: devops
+        annotations:
+          summary: "Memory usage above 85% on {{ $labels.instance }}"
+
+      - alert: HighMemoryUsage_95%
+        expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 5
+        for: 5m
+        labels:
+          severity: critical
+          team: devops
+        annotations:
+          summary: "Memory usage above 95% on {{ $labels.instance }}"
+
+      - alert: OutOfMemory
+        expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 1
+        for: 1m
+        labels:
+          severity: critical
+          team: devops
+        annotations:
+          summary: "Memory usage reaching 100% on {{ $labels.instance }}"

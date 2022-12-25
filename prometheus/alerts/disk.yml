@@ -1,0 +1,21 @@
+groups:
+  - name: DISK Rules
+    rules:
+
+      - alert: DiskUsage_80%
+        expr: node_filesystem_free_bytes{fstype="ext4"} / node_filesystem_size_bytes * 100 < 15
+        for: 15m
+        labels:
+          severity: warning
+          team: devops
+        annotations:
+          summary: "Disk usage above 85% for {{ $labels.mountpoint }} on {{ $labels.instance }}"
+
+      - alert: DiskUsage_90%
+        expr: node_filesystem_free_bytes{fstype="ext4"} / node_filesystem_size_bytes * 100  < 5
+        for: 5m
+        labels:
+          severity: critical
+          team: devops
+        annotations:
+          summary: "Disk usage above 95% for {{ $labels.mountpoint }} on {{ $labels.instance }}"
