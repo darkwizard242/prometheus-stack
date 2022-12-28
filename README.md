@@ -59,7 +59,3 @@ Relative path from repository - for configuration files of monitoring stack apps
 ## License
 
 [MIT](https://github.com/darkwizard242/ansible-role-subfinder/blob/master/LICENSE)
-
-## Author Information
-
-[Ali Muhammad](https://www.alimuhammad.dev/).
