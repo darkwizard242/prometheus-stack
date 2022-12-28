@@ -1,7 +1,7 @@
 FROM public.ecr.aws/docker/library/alpine:3.17 AS base
 
 ARG TOOL=${TOOL:-alertmanager}
-ARG VERSION=${VERSION:-0.24.0}
+ARG VERSION=${VERSION:-0.25.0}
 ARG OS=${OS:-linux}
 ARG ARCH=${ARCH:-amd64}
 
