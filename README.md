@@ -4,7 +4,7 @@ Demo repository containing containerized stack based on Prometheus, Grafana, Ale
 
 It code for containerizing the components to local development/testing.
 
-## 1\. Provisioning
+## Provisioning
 
 This section contains steps on how to utilize the containers locally.
 
@@ -45,7 +45,7 @@ BlackBox Exporter | <http://localhost:9115> | Does not apply.
 Prometheus        | <http://localhost:9090> | Does not apply.
 Grafana           | <https://localhost>     | admin/admin
 
-## 2\. Configuration Files:
+## Configuration Files:
 
 Application       | Relative Path                             | Comment
 ----------------- | ----------------------------------------- | --------------------------------------------------------------------
@@ -55,3 +55,11 @@ Prometheus        | ./prometheus/prometheus.yml               |
 Grafana           | _None_                                    | Environment variables in `docker-compose` used are used to override)
 
 Relative path from repository - for configuration files of monitoring stack apps.
+
+## License
+
+[MIT](https://github.com/darkwizard242/ansible-role-subfinder/blob/master/LICENSE)
+
+## Author Information
+
+[Ali Muhammad](https://www.alimuhammad.dev/).
