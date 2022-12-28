@@ -47,11 +47,11 @@ Grafana           | <https://localhost>     | admin/admin
 
 ## 2\. Configuration Files:
 
-Application       | Relative Path                                 | Comment
------------------ | --------------------------------------------- | --------------------------------------------------------------------
-Alert Manager     | **./alertmanager/alertmanager.yml**           |
-BlackBox Exporter | **./blackbox_exporter/blackbox_exporter.yml** |
-Prometheus        | **./prometheus/prometheus.yml**               |
-Grafana           | _None_                                        | Environment variables in `docker-compose` used are used to override)
+Application       | Relative Path                             | Comment
+----------------- | ----------------------------------------- | --------------------------------------------------------------------
+Alert Manager     | ./alertmanager/alertmanager.yml           |
+BlackBox Exporter | ./blackbox_exporter/blackbox_exporter.yml |
+Prometheus        | ./prometheus/prometheus.yml               |
+Grafana           | _None_                                    | Environment variables in `docker-compose` used are used to override)
 
 Relative path from repository - for configuration files of monitoring stack apps.
