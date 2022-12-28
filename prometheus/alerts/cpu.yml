@@ -1,0 +1,21 @@
+groups:
+  - name: CPU Rules
+    rules:
+
+      - alert: HighCpuLoad_85%
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 85
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Memory usage above 85% on {{ $labels.instance }}"
+          description: "CPU load is > 80%\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+      - alert: HighCpuLoad_95%
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 95
+        for: 10m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Memory usage above 95% on {{ $labels.instance }}"
+          description: "CPU load is > 95%\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"

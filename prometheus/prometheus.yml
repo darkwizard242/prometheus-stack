@@ -1,0 +1,35 @@
+global:
+  scrape_interval:     5s
+  evaluation_interval: 5s
+
+rule_files:
+ - "alerts/*.yml"
+
+alerting:
+  alertmanagers:
+  - static_configs:
+      - targets: ['alertmanager:9093']
+
+scrape_configs:
+
+  - job_name: 'blackbox'
+    metrics_path: /metrics
+    static_configs:
+    - targets: ['blackbox:9115']
+
+  - job_name: 'site_targets'
+    metrics_path: /probe
+    params:
+      module: [http_checks]
+    static_configs:
+      - targets:
+        - http://prometheus:9090
+        - http://alertmanager:9093
+        - http://blackbox:9115
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox:9115

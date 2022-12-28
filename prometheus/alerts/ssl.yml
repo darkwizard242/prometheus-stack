@@ -1,0 +1,33 @@
+groups:
+  - name: SSL Rules
+    rules:
+
+      - alert: Site_SSL_Expiring_30Days
+        expr: floor((probe_ssl_earliest_cert_expiry - time()) / 86400) < 30
+        for: 5m
+        labels:
+          severity: warn
+          team: devops
+        annotations:
+          summary: "SSL certificate for site {{ $labels.instance }} is expiring in less than 30 days."
+          description: "SSL certificate expires in {{ $value }} days"
+
+      - alert: Site_SSL_Expiring_15Days
+        expr: floor((probe_ssl_earliest_cert_expiry - time()) / 86400) < 15
+        for: 5m
+        labels:
+          severity: critical
+          team: devops
+        annotations:
+          summary: "SSL Cert for site {{ $labels.instance }} is expiring in less than 15 days."
+          description: "SSL certificate expires in {{ $value }} days"
+
+      - alert: Site_SSL_Expiring_5Days
+        expr: floor((probe_ssl_earliest_cert_expiry - time()) / 86400) < 5
+        for: 5m
+        labels:
+          severity: critical
+          team: devops
+        annotations:
+          summary: "SSL Cert for site {{ $labels.instance }} is expiring in less than 5 days."
+          description: "SSL certificate expires in {{ $value }} days"

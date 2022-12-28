@@ -1,0 +1,12 @@
+groups:
+  - name: SITES Rules
+    rules:
+
+      - alert: Site_Unreachable
+        expr: probe_success == 0
+        for: 1m
+        labels:
+          severity: critical
+          team: devops
+        annotations:
+          summary: "Site {{ $labels.instance }} is unreachable."
